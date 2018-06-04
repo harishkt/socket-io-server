@@ -15,10 +15,4 @@ app.get('/', (req,res) => {
 	res.send({ response: 'I am fine'}).status(200);
 });
 
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "http://radiant-tor-38672.herokuapp.com");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
-  });
-
 io.on('connection',socket => socketHandler(io, socket));
