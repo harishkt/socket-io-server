@@ -7,9 +7,9 @@ const app = express();
 const server = http.createServer(app);
 
 const io = socketIO(server);
+const port = process.env.PORT || 3000
 
-
-server.listen(4001, () => console.log('Listening to port: 4001'));
+server.listen(port, () => console.log(`Listening to port: ${port}`));
 
 app.get('/', (req,res) => {
 	res.send({ response: 'I am fine'}).status(200);
