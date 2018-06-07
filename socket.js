@@ -15,7 +15,8 @@ let gameInfo = {};
 		tilePositions: [null, null, ....]
 		isGameOver: false,
 		winner: null,
-		currentPlayer: null
+		currentPlayer: null,
+		messages: []
 	}
 	...
 }
@@ -87,11 +88,15 @@ const socketHandler = (io, socket) => {
 	});
 
 	socket.on('postChat', ({ roomNum, msgToBePosted }) => {
-		const { messages } = gameInfo[room];
-		const updatedChat = [ ...messsages, msgToBePosted ];
-		const newGameInfo = { ...gameInfo[room], messages: updatedChat };
-		gameInfo[room] = newGameInfo;
-		io.in(room).emit('chatUpdated', {
+		console.log(`roomNum in postChat is ${roomNum}`);
+		console.log(`gameInfo for that room is ${JSON.stringify(gameInfo[roomNum])}`);
+		const { messages } = gameInfo[roomNum];
+		console.log(`messages is ${messages}`);
+		console.log(`msgToBePosted got from client is ${JSON.stringify(msgToBePosted)}`);
+		const updatedChat = [ ...messages, msgToBePosted ];
+		const newGameInfo = { ...gameInfo[roomNum], messages: updatedChat };
+		gameInfo[roomNum] = newGameInfo;
+		io.in(roomNum).emit('chatUpdated', {
 			messages: updatedChat
 		});
 	})
