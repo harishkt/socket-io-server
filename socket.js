@@ -48,7 +48,6 @@ const socketHandler = (io, socket) => {
 			const isGameOver = false;
 			const winner = null;
 			gameInfo[data.room] = { ...gameInfo[data.room], player2, tilePositions, isGameOver, winner };
-			console.log(`gameInfo in joinGame - ${JSON.stringify(gameInfo)}`)
 			socket.broadcast.to(data.room).emit('allPlayersJoined',
 				{ showBoard: true, gameInfo: gameInfo[data.room] });
 			socket.emit('playerJoined',
@@ -65,18 +64,15 @@ const socketHandler = (io, socket) => {
 	});
 
 	socket.on('boardUpdated', ({ player, data, room }) => {
-		console.log(`Boardupdated event in server when ${player} clicked - ${JSON.stringify(data)}`);
 		// player, gameId, data
 		const newGameInfo = updateGameInfo(gameInfo[room], player, data);
 		gameInfo[room] = newGameInfo;
-		console.log(`gameInfo after BoardUpdated event is ${JSON.stringify(gameInfo[room])}`)
 		io.in(room).emit('turnPlayed', {
 		  gameInfo: newGameInfo
 		});
 	});
 
 	socket.on('playAgain', ({ room }) => {
-		console.log('playAgain event triggered from client');
 		const newGameInfo = resetGameInfo(gameInfo[room]);
 		io.in(room).emit('resetGame', {
 			gameInfo: newGameInfo
@@ -85,11 +81,7 @@ const socketHandler = (io, socket) => {
 	});
 
 	socket.on('postChat', ({ roomNum, msgToBePosted }) => {
-		console.log(`roomNum in postChat is ${roomNum}`);
-		console.log(`gameInfo for that room is ${JSON.stringify(gameInfo[roomNum])}`);
 		const { messages } = gameInfo[roomNum];
-		console.log(`messages is ${messages}`);
-		console.log(`msgToBePosted got from client is ${JSON.stringify(msgToBePosted)}`);
 		const updatedChat = [ ...messages, msgToBePosted ];
 		const newGameInfo = { ...gameInfo[roomNum], messages: updatedChat };
 		gameInfo[roomNum] = newGameInfo;
