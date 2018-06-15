@@ -40,7 +40,6 @@ const socketHandler = (io, socket) => {
 	 */
 	socket.on('joinGame', (data) => {
 		const room = io.nsps['/'].adapter.rooms[data.room];
-		console.log(`room in join Game is ${JSON.stringify(room)}`);
 		if( room && room.length === 1){
 			socket.join(data.room);
 			const player2 = { name: data.name, symbol: 'O' };

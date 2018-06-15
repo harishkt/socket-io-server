@@ -5,12 +5,10 @@ const getRoomNum = () => {
 	return Math.floor(Math.random()* (max - min + 1)) + min;
 };
 const getPlayerSymbol = (gameInfoByRoom, playerName) => {
-	console.log(`getPlayerSymbol method entered with ${playerName} and it is ${JSON.stringify(gameInfoByRoom)}`)
 	const { player1, player2 } = gameInfoByRoom;
 	return playerName === player1.name ? player1.symbol : player2.symbol;
 }
 const getOtherPlayer = (gameInfoByRoom, player) => {
-	console.log(`getOtherPlayer method entered with ${player} and it is ${JSON.stringify(gameInfoByRoom)}`)
 	const { player1, player2 } = gameInfoByRoom;
 	return player === player1.name ? player2.name : player1.name;
 };
