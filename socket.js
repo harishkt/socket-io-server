@@ -63,7 +63,6 @@ const socketHandler = (io, socket) => {
 	});
 
 	socket.on('boardUpdated', ({ player, data, room }) => {
-		// player, gameId, data
 		const newGameInfo = updateGameInfo(gameInfo[room], player, data);
 		gameInfo[room] = newGameInfo;
 		io.in(room).emit('turnPlayed', {
