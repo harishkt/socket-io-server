@@ -26,8 +26,10 @@ const socketHandler = (io, socket) => {
 	socket.on('createGame', (data) => {
 		const room = getRoomNum();
 		socket.join(room);
+		console.log(`Joined new room-${room} from server with ${JSON.stringify(data)}`);
 		const player1 = { name: data.name, symbol: 'X' };
 		gameInfo = { ...gameInfo, [room]: { player1, currentPlayer: data.name, roomNum: room, messages: [] }};
+		console.log(`gameInfo in createGame - ${JSON.stringify(gameInfo)}`)
 		socket.emit('newGame',
 			{
 				name: data.name,
